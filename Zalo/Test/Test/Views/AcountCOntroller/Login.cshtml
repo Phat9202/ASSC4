@@ -1,0 +1,17 @@
+﻿@model LoginBasic.Models.ViewModel.ViewModelLogin;
+
+@using (Html.BeginForm("Login", "Account", HttpMethod.Post))
+{
+    <div>
+        @Html.LabelFor(m =>m.username);
+        @Html.EditorFor(m => m.username)
+    </div>
+
+    <div>
+        @Html.LabelFor(m => m.password);
+        @Html.EditorFor(m => m.password)
+    </div>
+    <div>
+        <button type="submit">Login</button>
+    </div>
+}

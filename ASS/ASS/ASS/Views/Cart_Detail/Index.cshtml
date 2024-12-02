@@ -1,0 +1,635 @@
+﻿@model IEnumerable<ASS.Models.Cart_Detail>
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from easetemplate.com/free-website-templates/mobistore/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 19 Nov 2021 09:41:04 GMT -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <title>Nhom 21 LT WEB</title>
+    <!-- Bootstrap -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Style CSS -->
+    <link href="~/css/style.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="fonts/fontawesome-free-5.15.4-web/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i" rel="stylesheet">
+    <!-- FontAwesome CSS -->
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+    /* Container styling */
+    .container {
+    margin: 0 auto;
+    padding: 15px;
+    max-width: 1200px;
+    }
+
+    /* Cart content styling */
+    .cart-content {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Table styling */
+    .table {
+    width: 100%;
+    border-collapse: collapse;
+    }
+
+    .table th, .table td {
+    padding: 10px;
+    text-align: center;
+    }
+
+    .table .thead-light th {
+    background-color: #f8f9fa;
+    color: #333;
+    }
+
+    /* Button and quantity styling */
+    .btn-quantity {
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    }
+
+    .quantity-input {
+    width: 50px;
+    text-align: center;
+    }
+
+    /* Prices summary styling */
+    .prices-summary {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .left-content {
+    display: flex;
+    align-items: center;
+    }
+
+    .right-con {
+    text-align: right;
+    }
+
+    .total-receipt {
+    margin-bottom: 10px;
+    }
+
+    .prices {
+    list-style: none;
+    padding: 0;
+    }
+
+    .prices-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    }
+
+    .prices-final {
+    font-size: 1.2em;
+    font-weight: bold;
+    }
+
+    .btn-checkout {
+    background-color: #28a745;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    }
+
+    .btn-checkout:hover {
+    background-color: #218838;
+    }
+
+    /* Utility classes */
+    .text-blue {
+    color: #007bff;
+    }
+
+    .text-red {
+    color: #dc3545;
+    }
+
+    .font-weight-bold {
+    font-weight: bold;
+    }
+
+    </style>
+</head>
+
+<body>
+    <!-- header-section-->
+    <div class="header-wrapper">
+        <div class="container">
+            <div class="row">
+                <!-- logo -->
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-8">
+                    <div class="logo">
+                        <a href="index.html"><img src="~/lib/images/logo.png" alt=""> </a>
+                    </div>
+                </div>
+                <!-- /.logo -->
+                <!-- search -->
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="search-bg">
+                        <input type="text" class="form-control" placeholder="Tìm kiếm ở đây">
+                        <button type="Submit"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+                <!-- /.search -->
+                <!-- account -->
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <div class="account-section">
+                        <ul>
+                            <li><a asp-controller="Accounts" asp-action="AccountDetail" asp-route-id="@ViewBag.AccountId" class="title hidden-xs">Tài khoản</a></li>
+                            <li class="hidden-xs">|</li>
+                            <li><a asp-controller="Accounts" asp-action="Logout" class="title hidden-xs">Đăng Xuất</a></li>
+                            <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                            <li>
+                                <a asp-controller="Cart_Detail" asp-action="Index" class="title"><i class="fa fa-shopping-cart"></i>   <sup class="cart-quantity">1</sup></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.account -->
+                </div>
+                <!-- search -->
+            </div>
+        </div>
+        <!-- navigation -->
+        <div class="navigation">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <!-- navigations-->
+                        <div id="navigation">
+                            <ul>
+                                <li class="active"><a asp-controller="Home" asp-action="Index" class="title hidden-xs">Trang Chủ</a></li>
+                                <li>
+                                    <a asp-controller="Home" asp-action="IndexUser">Điện thoại</a>
+                                </li>
+                                <li>
+                                    <a asp-controller="Home" asp-action="ThongTin">Thông tin</a>
+                                </li>
+                                <li><a asp-controller="Home" asp-action="BaiViet">Bài viết</a> </li>
+                                <li>
+                                    <a asp-controller="Home" asp-action="HoTro">Liên hệ, hỗ trợ</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /.navigations-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /. header-section-->
+    <!-- page-header -->
+    <div class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li><a href="#">Trang chủ</a></li>
+                            <li>Giỏ hàng</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.page-header-->
+    <form method="post" action="@Url.Action("UpdateQuantity", "Cart_Detail")" action="@Url.Action("Checkout", "Order")" id="cart-form">
+        @Html.AntiForgeryToken()
+        <div class="container">
+            <div class="cart-content mt30 mb30">
+                <div class="title-header mb20">
+                    <h2 class="title">Giỏ Hàng</h2>
+                    <p><span class="text-blue">@Model.Count()</span> sản phẩm trong giỏ hàng của bạn</p>
+                </div>
+                <table class="table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th></th>
+                            <th>Sản phẩm</th>
+                            <th scope="col">Đơn giá</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Thành tiền</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr data-item-id="@item.Id" data-total-price="@item.Total">
+                                <td>
+                                    <div class="item-center pdl10">
+                                        <input type="checkbox" class="checkboxStyle">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="product-title item-center">
+                                        <img src="~/lib/images/@item.Product.Image" alt="Product Image" class="img-thumbnail" style="max-width: 100px;">
+                                        <div>
+                                            <p>@Html.DisplayFor(modelItem => item.Product.Ten)</p>
+                                            <p>Màu sắc: @item.Product.Ten</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="item-center">@Html.DisplayFor(modelItem => item.Price)</div>
+                                </td>
+                                <td>
+                                    <div class="item-center">
+                                        <div class="quantity">
+                                            <input class="btn-quantity decrease-quantity" type="button" value="-">
+                                            <input type="number" max="@item.Product.SoLuong" min="1" value="@item.Quantity" class="quantity-input">
+                                            <input class="btn-quantity increase-quantity" type="button" value="+">
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="item-center text-red">
+                                        <span class="total-price">@item.Total</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="item-center pinside10">
+                                        <button type="button" class="btn btn-sm btn-primary btn-update">Sửa</button>
+                                        <a asp-controller="Home" asp-action="Details" asp-route-id="@item.Product.Id" class="btn btn-sm btn-info">Chi tiết</a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Xóa</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td colspan="4" class="text-right font-weight-bold">Tổng giá:</td>
+                            <td>
+                                <span id="totalPrice" class="text-red">
+                                    @Model.Sum(item => item.Total).ToString("C")
+                                </span>
+                            </td>
+                            <td>
+                                <button asp-controller="Orders" asp-action="Create" class="btn-default">Mua Ngay</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <input type="hidden" name="id" id="hidden-id" />
+        <input type="hidden" name="quantity" id="hidden-quantity" />
+        <input type="hidden" name="totalPrice" id="hidden-totalPrice" />
+    </form>
+
+
+
+
+    <!-- /.cart-total -->
+    </div>
+
+    <!-- /.cart-section -->
+    <!-- footer -->
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <!-- footer-company-links -->
+                <!-- footer-contact links -->
+                <div class=" col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <div class="footer-widget">
+                        <h3 class="footer-title">Thông tin hỗ trợ</h3>
+                        <div class="contact-info">
+                            <span class="contact-icon"><i class="fa fa-map-marker"></i></span>
+                            <span class="contact-text">
+                                Phường Linh Trung, Thủ Đức<br>Thành phố Hồ Chí Minh, Việt Nam -
+                                1955
+                            </span>
+                        </div>
+                        <div class="contact-info">
+                            <span class="contact-icon"><i class="fa fa-phone"></i></span>
+                            <span class="contact-text">+084-123-4567 / 89</span>
+                        </div>
+                        <div class="contact-info">
+                            <span class="contact-icon"><i class="fa fa-envelope"></i></span>
+                            <span class="contact-text">nhom21@ltweb.com</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.footer-useful-links -->
+                <div class=" col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <div class="footer-widget">
+                        <h3 class="footer-title">Tiện ích</h3>
+                        <ul class="arrow">
+                            <li><a href="index.html">Trang chủ </a></li>
+                            <li><a href="product-list.html">Điện thoại</a></li>
+                            <li><a href="about.html">Thông tin</a></li>
+                            <li><a href="blog-default.html">Bài viết</a></li>
+                            <li><a href="contact-us.html">Liên hệ, hỗ trợ</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /.footer-useful-links -->
+                <!-- footer-policy-list-links -->
+                <div class=" col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <div class="footer-widget">
+                        <h3 class="footer-title">Chính sách</h3>
+                        <ul class="arrow">
+                            <li><a href="#">Thanh toán</a></li>
+                            <li><a href="#">Hủy, trả hàng</a></li>
+                            <li><a href="#">Giao hàng và vận chuyển</a></li>
+                            <li><a href="#">Chính sách bảo mật</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /.footer-policy-list-links -->
+                <!-- footer-social links -->
+                <div class=" col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <div class="footer-widget">
+                        <h3 class="footer-title">Liên lạc với chúng tôi</h3>
+                        <div class="ft-social">
+                            <span><a href="#" class="btn-social btn-facebook"><i class="fa fa-facebook"></i></a></span>
+                            <span><a href="#" class="btn-social btn-twitter"><i class="fa fa-twitter"></i></a></span>
+                            <span>
+                                <a href="#" class="btn-social btn-googleplus">
+                                    <i class="fa fa-google-plus"></i>
+                                </a>
+                            </span>
+                            <span><a href="#" class=" btn-social btn-linkedin"><i class="fa fa-linkedin"></i></a></span>
+                            <span>
+                                <a href="#" class=" btn-social btn-pinterest">
+                                    <i class="fa fa-pinterest-p"></i>
+                                </a>
+                            </span>
+                            <span>
+                                <a href="#" class=" btn-social btn-instagram">
+                                    <i class="fa fa-instagram"></i>
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.footer-social links -->
+            </div>
+        </div>
+        <!-- tiny-footer -->
+        <div class="tiny-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="payment-method alignleft">
+                            <ul>
+                                <li><a href="#"><i class="fa fa-cc-paypal fa-2x"></i></a></li>
+                                <li><a href="#"><i class="fa fa-cc-mastercard  fa-2x"></i></a></li>
+                                <li><a href="#"><i class="fa fa-cc-visa fa-2x"></i></a></li>
+                                <li><a href="#"><i class="fa fa-cc-discover fa-2x"></i></a></li>
+                            </ul>
+                        </div>
+                        <p class="alignright">
+                            Copyright © All Rights Reserved 2020 Template Design by
+                            <a href="https://easetemplate.com/" target="_blank" class="copyrightlink">Nhom 21</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- /. tiny-footer -->
+        </div>
+    </div>
+    <!-- /.footer -->
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/menumaker.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/jquery.sticky.js"></script>
+    <script type="text/javascript" src="js/sticky-header.js"></script>
+    <script type="text/javascript" src="js/owl.carousel.min.js"></script>
+    <script type="text/javascript" src="js/multiple-carousel.js"></script>
+    @section Scripts {
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Tăng và giảm số lượng
+                document.querySelectorAll('.btn-quantity').forEach(button => {
+                    button.addEventListener('click', function () {
+                        const input = this.parentElement.querySelector('input.quantity-input');
+                        let quantity = parseInt(input.value, 10);
+                        const maxQuantity = parseInt(input.getAttribute('max'), 10);
+
+                        if (this.classList.contains('increase-quantity')) {
+                            if (quantity < maxQuantity) {
+                                quantity++;
+                            }
+                        } else if (this.classList.contains('decrease-quantity')) {
+                            if (quantity > 1) {
+                                quantity--;
+                            }
+                        }
+
+                        input.value = quantity;
+                        // Cập nhật thành tiền và các hành động khác nếu cần
+                    });
+                });
+
+                const tokenElement = document.querySelector('input[name="__RequestVerificationToken"]');
+                if (!tokenElement) {
+                    console.error("RequestVerificationToken element not found");
+                    return;
+                }
+
+                const token = tokenElement.value;
+                document.querySelectorAll('.btn-update').forEach(button => {
+                    button.addEventListener('click', function () {
+                        // Lấy tr từ nút Sửa hiện tại
+                        const row = this.closest('tr');
+                        // Lấy id của sản phẩm
+                        const itemId = row.getAttribute('data-item-id');
+                        // Lấy số lượng và thành tiền từ input và span trong tr
+                        const quantity = row.querySelector('.quantity-input').value;
+                        const totalPrice = row.querySelector('.total-price').textContent;
+
+                        // Cập nhật các giá trị ẩn
+                        document.getElementById('hidden-id').value = itemId;
+                        document.getElementById('hidden-quantity').value = quantity;
+                        document.getElementById('hidden-totalPrice').value = totalPrice;
+
+                        // Gửi form
+                        document.getElementById('cart-form').submit();
+                    });
+                });
+                // // Cập nhật số lượng và tổng giá
+                // document.querySelectorAll('.btn-update').forEach(button => {
+                //     button.addEventListener('click', function () {
+                //         const row = this.closest('tr');
+                //         const itemId = row.querySelector('input[data-item-id]').getAttribute('data-item-id');
+                //         const quantityInput = row.querySelector('input[name="quantity"]');
+                //         const quantity = parseInt(quantityInput.value, 10);
+                //         const maxQuantity = parseInt(quantityInput.getAttribute('data-max-quantity'), 10);
+                //         const price = parseFloat(row.querySelector('td:nth-child(3)').innerText.replace('$', '').replace(',', ''));
+                //         const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+                //         if (quantity < 1 || quantity > maxQuantity) {
+                //             alert(`Số lượng không thể vượt quá ${maxQuantity}.`);
+                //             return;
+                //         }
+
+                //         const totalPrice = quantity * price;
+                //         row.querySelector('span.total-price').innerText = totalPrice.toFixed(2);
+
+                //         // Gửi yêu cầu cập nhật
+                //         fetch('@Url.Action("UpdateQuantity", "Cart_Detail")', {
+                //             method: 'POST',
+                //             headers: {
+                //                 'Content-Type': 'application/json',
+                //                 'RequestVerificationToken': token // Sử dụng token đã lấy
+                //             },
+                //             body: JSON.stringify({
+                //                 id: itemId,
+                //                 quantity: quantity,
+                //                 totalPrice: totalPrice
+                //             })
+                //         })
+                //             .then(response => response.json())
+                //             .then(data => {
+                //                 if (data.success) {
+                //                     alert('Cập nhật thành công!');
+                //                     // Cập nhật tổng giá
+                //                     updateTotalPrice();
+                //                 } else {
+                //                     alert(`Cập nhật thất bại: ${data.message}`);
+                //                 }
+                //             })
+                //             .catch(error => {
+                //                 console.error('Error:', error);
+                //             });
+                //     });
+                // });
+
+                // Xóa mục
+                document.querySelectorAll('.btn-delete').forEach(button => {
+                    button.addEventListener('click', function () {
+                        const itemId = this.getAttribute('data-item-id');
+                        const confirmDelete = confirm('Bạn có chắc chắn muốn xóa mục này?');
+
+                        if (confirmDelete) {
+                            fetch('@Url.Action("Delete", "Cart_Detail")', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'RequestVerificationToken': token // Sử dụng token đã lấy
+                                },
+                                body: JSON.stringify({ id: itemId })
+                            })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        alert('Xóa thành công!');
+                                        location.reload();
+                                    } else {
+                                        alert(`Xóa thất bại: ${data.message}`);
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                });
+                        }
+                    });
+                });
+
+                
+
+                // Nút Mua Ngay
+                document.querySelector('.btn-checkout').addEventListener('click', function () {
+                    // Gửi yêu cầu mua hàng
+                    fetch('@Url.Action("Purchase", "Cart")', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken': token // Sử dụng token đã lấy
+                        },
+                        body: JSON.stringify({ /* Thông tin cần thiết cho việc mua hàng */ })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('Đặt hàng thành công!');
+                                location.href = '@Url.Action("OrderConfirmation", "Cart")'; // Chuyển hướng đến trang xác nhận đơn hàng
+                            } else {
+                                alert(`Đặt hàng thất bại: ${data.message}`);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                });
+
+                function updateTotalPrice() {
+                    const totalPrice = Array.from(document.querySelectorAll('span.total-price'))
+                        .reduce((sum, span) => sum + parseFloat(span.innerText.replace('$', '').replace(',', '')), 0);
+
+                    document.querySelector('#totalPrice').innerText = totalPrice.toFixed(2);
+                }
+            });
+            document.querySelector('.btn-checkout').addEventListener('click', function () {
+                var cartItems = [];
+
+                document.querySelectorAll('.table tbody tr').forEach(function (row) {
+                    var product = row.querySelector('.product-title p').textContent.trim();
+                    var price = row.querySelector('.quantity-input').value;
+                    var quantity = parseInt(row.querySelector('.quantity-input').value);
+                    var total = parseFloat(row.querySelector('.text-red').textContent.replace(/[^0-9.-]+/g, ""));
+
+                    cartItems.push({
+                        Product: product,
+                        Price: price,
+                        Quantity: quantity,
+                        Total: total
+                    });
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("SaveCartToSession", "Cart_Detail")',
+                    data: { cartItems: cartItems },
+                    success: function () {
+                        window.location.href = '@Url.Action("Index", "Order")';
+                    }
+                });
+            });
+
+        </script>
+    }
+
+
+
+
+</body>
+
+</html>

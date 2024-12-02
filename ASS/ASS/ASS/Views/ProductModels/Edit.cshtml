@@ -1,0 +1,372 @@
+﻿@model ASS.Models.Product
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from easetemplate.com/free-website-templates/mobistore/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 19 Nov 2021 09:41:04 GMT -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <title>Nhom 21 LT WEB</title>
+    <!-- Bootstrap -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Style CSS -->
+    <link href="~/css/style.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="fonts/fontawesome-free-5.15.4-web/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i" rel="stylesheet">
+    <!-- FontAwesome CSS -->
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cart-content {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .title {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .dl-horizontal dt {
+            font-weight: bold;
+        }
+
+        .row.mb10 {
+            margin-bottom: 10px;
+        }
+
+        .img-fluid {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .btn-group .btn {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- header-section-->
+    <div class="header-wrapper">
+        <div class="container">
+            <div class="row">
+                <!-- logo -->
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-8">
+                    <div class="logo">
+                        <a href="index.html"><img src="~/lib/images/logo.png" alt=""> </a>
+                    </div>
+                </div>
+                <!-- /.logo -->
+                <!-- search -->
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="search-bg">
+                        <input type="text" class="form-control" placeholder="Tìm kiếm ở đây">
+                        <button type="Submit"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+                <!-- /.search -->
+                <!-- account -->
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <div class="account-section">
+
+                        <ul>
+
+                            <li class="hidden-xs">
+
+                                <a asp-controller="Accounts" asp-action="AccountDetail" asp-route-id="@ViewBag.AccountId" class="title hidden-xs">Tài khoản</a>                                |
+
+                            </li>
+
+                            <li><a asp-controller="Accounts" asp-action="Logout" class="title hidden-xs">Đăng Xuất</a></li>
+
+                        </ul>
+
+                    </div>
+                    <!-- /.account -->
+                </div>
+                <!-- search -->
+            </div>
+        </div>
+        <!-- navigation -->
+        <div class="navigation">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <!-- navigations-->
+                        <div id="navigation">
+                            <ul>
+                                <li class="active"><a asp-controller="Home" asp-action="IndexAdmin" class="title hidden-xs">Trang Chủ</a></li>
+                                <li>
+                                    <a asp-controller="ProductModels" asp-action="Index">Quản Lý Điện thoại</a>
+                                </li>
+                                <li><a asp-controller="QuanLyAccount" asp-action="Index">Quản Lý tài Khoản</a> </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /.navigations-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /. header-section-->
+    <!-- page-header -->
+    <div class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li><a href="#">Trang chủ</a></li>
+                            <li>Giỏ hàng</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.page-header-->
+    <div class="container mt-5 mb-5">
+        <div class="card shadow-lg">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="card-title mb-0">Sửa Đổi</h3>
+                <a asp-action="Index" class="btn btn-outline-secondary">Quay Lại</a>
+            </div>
+            <div class="card-body">
+                <form asp-action="Edit" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <label asp-for="Ten" class="control-label">Tên</label>
+                        <input asp-for="Ten" class="form-control" />
+                        <span asp-validation-for="Ten" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SoLuong" class="control-label">Số Lượng</label>
+                        <input asp-for="SoLuong" class="form-control" />
+                        <span asp-validation-for="SoLuong" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Mota" class="control-label">Mô Tả</label>
+                        <textarea asp-for="Mota" class="form-control"></textarea>
+                        <span asp-validation-for="Mota" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Gia" class="control-label">Giá</label>
+                        <input asp-for="Gia" class="form-control" />
+                        <span asp-validation-for="Gia" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ManHinh" class="control-label">Màn Hình</label>
+                        <input asp-for="ManHinh" class="form-control" />
+                        <span asp-validation-for="ManHinh" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="BoNho" class="control-label">Bộ Nhớ</label>
+                        <input asp-for="BoNho" class="form-control" />
+                        <span asp-validation-for="BoNho" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="HeDieuHanh" class="control-label">Hệ Điều Hành</label>
+                        <input asp-for="HeDieuHanh" class="form-control" />
+                        <span asp-validation-for="HeDieuHanh" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PhanLoaiId" class="control-label">Phân Loại</label>
+                        <select asp-for="PhanLoaiId" class="form-control" asp-items="ViewBag.PhanLoaiId"></select>
+                        <span asp-validation-for="PhanLoaiId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ThuongHieuId" class="control-label">Thương Hiệu</label>
+                        <select asp-for="ThuongHieuId" class="form-control" asp-items="ViewBag.ThuongHieuId"></select>
+                        <span asp-validation-for="ThuongHieuId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Image" class="control-label">Hình Ảnh</label>
+                        <input asp-for="Image" class="form-control" />
+                        <span asp-validation-for="Image" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Xem trước</label>
+                        <div class="product-img">
+                            <img src="~/lib/images/@Model.Image" class="img-thumbnail" alt="Image">
+                        </div>
+                    </div>
+                    <div class="form-group d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary">Lưu</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- /.cart-total -->
+
+    <!-- /.cart-section -->
+    <!-- footer -->
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <!-- footer-company-links -->
+                <!-- footer-contact links -->
+                <div class=" col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <div class="footer-widget">
+                        <h3 class="footer-title">Thông tin hỗ trợ</h3>
+                        <div class="contact-info">
+                            <span class="contact-icon"><i class="fa fa-map-marker"></i></span>
+                            <span class="contact-text">
+                                Phường Linh Trung, Thủ Đức<br>Thành phố Hồ Chí Minh, Việt Nam -
+                                1955
+                            </span>
+                        </div>
+                        <div class="contact-info">
+                            <span class="contact-icon"><i class="fa fa-phone"></i></span>
+                            <span class="contact-text">+084-123-4567 / 89</span>
+                        </div>
+                        <div class="contact-info">
+                            <span class="contact-icon"><i class="fa fa-envelope"></i></span>
+                            <span class="contact-text">nhom21@ltweb.com</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.footer-useful-links -->
+                <div class=" col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <div class="footer-widget">
+                        <h3 class="footer-title">Tiện ích</h3>
+                        <ul class="arrow">
+                            <li><a href="index.html">Trang chủ </a></li>
+                            <li><a href="product-list.html">Điện thoại</a></li>
+                            <li><a href="about.html">Thông tin</a></li>
+                            <li><a href="blog-default.html">Bài viết</a></li>
+                            <li><a href="contact-us.html">Liên hệ, hỗ trợ</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /.footer-useful-links -->
+                <!-- footer-policy-list-links -->
+                <div class=" col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <div class="footer-widget">
+                        <h3 class="footer-title">Chính sách</h3>
+                        <ul class="arrow">
+                            <li><a href="#">Thanh toán</a></li>
+                            <li><a href="#">Hủy, trả hàng</a></li>
+                            <li><a href="#">Giao hàng và vận chuyển</a></li>
+                            <li><a href="#">Chính sách bảo mật</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /.footer-policy-list-links -->
+                <!-- footer-social links -->
+                <div class=" col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <div class="footer-widget">
+                        <h3 class="footer-title">Liên lạc với chúng tôi</h3>
+                        <div class="ft-social">
+                            <span><a href="#" class="btn-social btn-facebook"><i class="fa fa-facebook"></i></a></span>
+                            <span><a href="#" class="btn-social btn-twitter"><i class="fa fa-twitter"></i></a></span>
+                            <span>
+                                <a href="#" class="btn-social btn-googleplus">
+                                    <i class="fa fa-google-plus"></i>
+                                </a>
+                            </span>
+                            <span><a href="#" class=" btn-social btn-linkedin"><i class="fa fa-linkedin"></i></a></span>
+                            <span>
+                                <a href="#" class=" btn-social btn-pinterest">
+                                    <i class="fa fa-pinterest-p"></i>
+                                </a>
+                            </span>
+                            <span>
+                                <a href="#" class=" btn-social btn-instagram">
+                                    <i class="fa fa-instagram"></i>
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.footer-social links -->
+            </div>
+        </div>
+        <!-- tiny-footer -->
+        <div class="tiny-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="payment-method alignleft">
+                            <ul>
+                                <li><a href="#"><i class="fa fa-cc-paypal fa-2x"></i></a></li>
+                                <li><a href="#"><i class="fa fa-cc-mastercard  fa-2x"></i></a></li>
+                                <li><a href="#"><i class="fa fa-cc-visa fa-2x"></i></a></li>
+                                <li><a href="#"><i class="fa fa-cc-discover fa-2x"></i></a></li>
+                            </ul>
+                        </div>
+                        <p class="alignright">
+                            Copyright © All Rights Reserved 2020 Template Design by
+                            <a href="https://easetemplate.com/" target="_blank" class="copyrightlink">Nhom 21</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- /. tiny-footer -->
+        </div>
+    </div>
+    <!-- /.footer -->
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/menumaker.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/jquery.sticky.js"></script>
+    <script type="text/javascript" src="js/sticky-header.js"></script>
+    <script type="text/javascript" src="js/owl.carousel.min.js"></script>
+    <script type="text/javascript" src="js/multiple-carousel.js"></script>
+
+    <script>
+        function dcQuantity() {
+            var result = document.getElementById('quantity-input');
+            var qty = result.value;
+            if (!isNaN(qty) && qty > 1) {
+                result.value--;
+                document.getElementById('quantity-input').innerHTML = qty;
+            }
+            return false;
+        };
+        function icQuantity() {
+            var result = document.getElementById('quantity-input');
+            var qty = result.value;
+            if (!isNaN(qty) && qty < 10) {
+                result.value++;
+                document.getElementById('quantity-input').innerHTML = qty;
+            }
+            return false;
+        }
+    </script>
+
+</body>
+
+</html>

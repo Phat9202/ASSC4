@@ -1,0 +1,10 @@
+﻿@using Bai5.Models
+@model Customer
+
+@using (Html.BeginForm("CreateCustumer", "Customer", FormMethod.Post))
+{
+    @Html.TextBoxFor(x => x.id)
+    @Html.TextBoxFor(x => x.id)
+    @Html.TextBoxFor(x => x.id)
+    <button type="submit">Submit</button>
+}

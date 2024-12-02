@@ -1,0 +1,17 @@
+﻿@model Custumer
+<div class="text-center">
+    <h1>Danh Sách Khách Hàng --- ViewBag</h1>
+    @if (ViewBag.ListCustumers != null)
+    {
+        <ul>
+            @foreach (var item in ViewBag.ListCustumers)
+            {
+                <li>@item.id</li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No customers found.</p>
+    }
+</div>
